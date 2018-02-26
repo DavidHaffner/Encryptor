@@ -13,7 +13,7 @@ import java.util.Scanner;
  *
  * @author dhaffner
  */
-public class Encryptor_main {
+public class EncryptorApp {
     
     
     
