@@ -7,6 +7,7 @@ package Application;
 
 import enigma.Enigma;
 import static enigma.Enigma.screen;
+import java.util.Scanner;
 
 /**
  *
@@ -17,14 +18,33 @@ public class Encryptor_main {
     
     
     public static void main(String[] args) {
-        // dát na výběr: 1. Enigma
+        
+        String choice;
         
         
-        // spustí kódování Enigma
-        screen = new Enigma();
-        screen.show();
-        
-        
+        while (true) {
+            // úvodní výběr z metod
+            System.out.println("Welcome in Encryptor ...");
+            System.out.println("Choose the encrypting method:");
+            System.out.println("   1 - Enigma");
+            System.out.println("   (the rest of methods are under construction yet)");
+
+            Scanner sc = new Scanner(System.in);
+            System.out.println();
+            System.out.println("Insert your choice: ");
+            choice = sc.nextLine(); 
+
+            if ("1".equals(choice)) {
+                // spustí kódování Enigma
+                screen = new Enigma();
+                screen.show();
+
+                break;
+            } 
+
+            System.out.println("Invalid choice, try again, please ...");
+            System.out.println();
+        }    
     }
     
 }

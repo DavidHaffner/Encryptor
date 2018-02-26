@@ -19,7 +19,7 @@ public class Enigma extends Frame {
 
     public static final int FRAME_WIDTH = 660;
 
-    public static final int FRAME_HEIGTH = 400;
+    public static final int FRAME_HEIGHT = 400;
 
     public static Enigma screen;
 
@@ -41,7 +41,7 @@ public class Enigma extends Frame {
     public Enigma() {
         this.FileExtension = ".enigma";
         setTitle("Enigma Simulator");
-        setSize(FRAME_WIDTH, FRAME_HEIGTH);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setResizable(false);
 
         setLayout(new FlowLayout());
