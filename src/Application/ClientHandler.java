@@ -6,11 +6,8 @@
 package Application;
 
 import enigma.Enigma;
-import static enigma.Enigma.screen;
-import java.util.Date;
 import java.net.Socket;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,26 +44,29 @@ class ClientHandler extends ParseMessage implements Runnable {
 
             while (true) {
                 // úvodní výběr z metod
-                System.out.println("Welcome in Encryptor ...");
-                System.out.println("Choose the encrypting method:");
-                System.out.println("   1 - Enigma");
-                System.out.println("   (the rest of methods are under construction yet)");
+                write("Welcome in Encryptor ...\n");
+                write("Choose the encrypting method + / + E(encrypting) or D(decrypting) + / + the text message\n");
+                write("For example: 1/E/skakal pes pres oves\n");
+                write("\n");        
+                
+                write("1-Enigma\n");
+                write("(the rest of methods are under construction yet)\n");
 
-                Scanner sc = new Scanner(System.in);
-                System.out.println();
-                System.out.println("Insert your choice: ");
-                choice = sc.nextLine();
+                write("\n");
+                write("Insert your choice: ");
+                choice = read("", "\n");
 
-                if ("1".equals(choice)) {
-                    // spustí kódování Enigma
-                    screen = new Enigma();
-                    screen.show();
-
+                String [] parsed = choice.split("/");
+                
+                if ("1".equals(parsed[0]) && ("E".equals(parsed[1]) || "D".equals(parsed[1])) ) {
+                    // spustí kódování či dekódování Enigma
+                    Enigma enigma = new Enigma(parsed[2]);
+                    enigma.EncryptEnigma();
+                    enigma.DecryptEnigma();
                     break;
                 }
-
-                System.out.println("Invalid choice, try again, please ...");
-                System.out.println();
+                write("Invalid choice, try again, please ...\n");
+                write("\n");
             }
             sock.shutdownOutput();
             sock.close();
