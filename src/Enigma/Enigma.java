@@ -8,11 +8,17 @@ package enigma;
 import Enigma.Rotor.LargeRotor;
 import Enigma.Rotor.MedRotor;
 import Enigma.Rotor.SmallRotor;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Enigma {
 
-    //final String FILE_EXTENSION = ".enigma";
-
+    String fileName = "masopustVelky";
+    final String FILE_EXTENSION = ".enigma";
     //public static Enigma enigma;
 
     //private final Insets ins;
@@ -21,8 +27,8 @@ public class Enigma {
     private MedRotor medrotor = new MedRotor();
     private LargeRotor lgrotor = new LargeRotor();
 
-    protected String message;
-    protected String encrypted;
+    protected String messageIn;
+    protected String messageOut;
 
     //protected String messFN;
     //protected String encFN;
@@ -31,7 +37,7 @@ public class Enigma {
     //protected String fNLabel2 = "Enter a FileName";
 
     public Enigma(String message) {
-        this.message = message;
+        this.messageIn = message;
         }
         
         /*
@@ -101,10 +107,10 @@ public class Enigma {
     }
     */
                 
-    public void EncryptEnigma() {
-        String plain = message;
+    public String encryptEnigma() {
+        String plain = messageIn;
         plain = plain.toUpperCase();
-        plain = plain.trim();
+        plain = plain.replaceAll("\\s+","");
         char[] cypher = new char[10000];
 
         for (int i = 0; i < plain.length(); i++) {
@@ -112,18 +118,21 @@ public class Enigma {
 
         }
 
-        encrypted = String.copyValueOf(cypher);
+        messageOut = String.copyValueOf(cypher);
 
         smrotor = new SmallRotor();
         medrotor = new MedRotor();
         lgrotor = new LargeRotor();
-
+        
+        //this.SaveMessage(fileName, messageOut);
+        
+        return messageOut;
     }
 
-    public void DecryptEnigma() {
-        String cypher = encrypted;
+    public String decryptEnigma() {
+        String cypher = messageIn;
         cypher = cypher.toUpperCase();
-        cypher = cypher.trim();
+        cypher = cypher.replaceAll("\\s+","");
         char[] plaintxt = new char[10000];
 
         for (int i = 0; i < cypher.length(); i++) {
@@ -131,11 +140,15 @@ public class Enigma {
 
         }
 
-        message = String.copyValueOf(plaintxt);
+        messageOut = String.copyValueOf(plaintxt);
 
         smrotor = new SmallRotor();
         medrotor = new MedRotor();
         lgrotor = new LargeRotor();
+        
+        //this.SaveMessage(fileName, messageOut);
+        
+        return messageOut;
     }
 
     /*
@@ -188,30 +201,56 @@ public class Enigma {
             encrypted.setText("Can't Find File " + FileName + FILE_EXTENSION);
         }
     }
+    
 
-    public void SaveMessage(String FileName) {
+    public void saveMessage(String FileName, String message) {
         System.out.println("Saved " + FileName + FILE_EXTENSION);
         try {
             FileOutputStream out = new FileOutputStream(FileName + FILE_EXTENSION);
             DataOutputStream dout = new DataOutputStream(out);
 
-            String mess = new String(message.getText());
-
+            
             try {
-                for (int i = 0; i < mess.length(); i++) {
-                    dout.writeByte(mess.charAt(i));
+                for (int i = 0; i < message.length(); i++) {
+                    dout.writeByte(message.charAt(i));
 
                 }
-            } catch (IOException e) {
-                message.setText(String.valueOf(mess));
+            } catch (IOException ex) {
+                Logger.getLogger(Enigma.class.getName()).log(Level.SEVERE, "Error in IO handling.", ex);
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Can't Find File");
-            messFN.setText("Can't Find File " + FileName + FILE_EXTENSION);
-        }
+            Logger.getLogger(Enigma.class.getName()).log(Level.SEVERE, "Error in stream handling.", e);
+        } 
+        
+        // uzavřít streamy netřeba -> protože jsou v rámci try bloku, uzavření se provede automaticky
+        
     }
+    
+    public void sendMessageToClient (String message) {
+        System.out.println("Sent code: " + message);
+        
+        try {
+            FileOutputStream out = new FileOutputStream(FileName + FILE_EXTENSION);
+            DataOutputStream dout = new DataOutputStream(out);
 
+            
+            try {
+                for (int i = 0; i < message.length(); i++) {
+                    dout.writeByte(message.charAt(i));
+
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Enigma.class.getName()).log(Level.SEVERE, "Error in IO handling.", ex);
+            }
+
+        } catch (FileNotFoundException e) {
+            Logger.getLogger(Enigma.class.getName()).log(Level.SEVERE, "Error in stream handling.", e);
+        }
+        
+    }
+    
+    
     public void SaveCypherTxt(String FileName) {
         try {
             FileOutputStream out = new FileOutputStream(FileName + FILE_EXTENSION);

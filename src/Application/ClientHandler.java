@@ -41,11 +41,12 @@ class ClientHandler extends ParseMessage implements Runnable {
 
         try {
             String choice;
+            boolean quit = false;
 
-            while (true) {
+            while (!quit) {
                 // úvodní výběr z metod
                 write("Welcome in Encryptor ...\n");
-                write("Choose the encrypting method + / + E(encrypting) or D(decrypting) + / + the text message\n");
+                write("Choose the encrypting method / E(encrypting) or D(decrypting) / the text message\n");
                 write("For example: 1/E/skakal pes pres oves\n");
                 write("\n");        
                 
@@ -61,12 +62,23 @@ class ClientHandler extends ParseMessage implements Runnable {
                 if ("1".equals(parsed[0]) && ("E".equals(parsed[1]) || "D".equals(parsed[1])) ) {
                     // spustí kódování či dekódování Enigma
                     Enigma enigma = new Enigma(parsed[2]);
-                    enigma.EncryptEnigma();
-                    enigma.DecryptEnigma();
-                    break;
+                        if ("E".equals(parsed[1])) {
+                            String code = "Encrypted code is: " + enigma.encryptEnigma() +"\n";
+                            write(code);
+                        }    
+                        if ("D".equals(parsed[1])) { 
+                            String code = "Decrypted code is: " + enigma.decryptEnigma() +"\n";
+                            write(code);
+                        }    
+                } else {
+                    write("Invalid choice ...\n");
                 }
-                write("Invalid choice, try again, please ...\n");
-                write("\n");
+                write ("Once again? (E for end): \n");
+                choice = read("", "\n");
+                
+                if ('E' == choice.charAt(0)) {
+                    quit = true;
+                }
             }
             sock.shutdownOutput();
             sock.close();

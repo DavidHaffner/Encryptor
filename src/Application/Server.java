@@ -32,7 +32,7 @@ public class Server {
 
     public static void main(String[] args) {
         try {
-            new Server(args.length > 0 ? Integer.parseInt(args[0]) : 8081);
+            new Server(args.length > 0 ? Integer.parseInt(args[0]) : 8088);
         } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             //ex.printStackTrace(); 
