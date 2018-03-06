@@ -45,6 +45,9 @@ class ClientHandler extends ParseMessage implements Runnable {
 
             while (!quit) {
                 // úvodní výběr z metod
+                
+                write("Encryptor input schema: 1/E/text; insert, please...\n");
+                /*
                 write("Welcome in Encryptor ...\n");
                 write("Choose the encrypting method / E(encrypting) or D(decrypting) / the text message\n");
                 write("For example: 1/E/skakal pes pres oves\n");
@@ -55,6 +58,7 @@ class ClientHandler extends ParseMessage implements Runnable {
 
                 write("\n");
                 write("Insert your choice: ");
+                */
                 choice = read("", "\n");
 
                 String [] parsed = choice.split("/");

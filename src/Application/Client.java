@@ -14,17 +14,19 @@ public class Client extends ParseMessage {
 
     Client(String host, int port) {
         try {
-            // nastavení socketu                                        // 1. ř.31: out.flush() -> účel?
-            sock = new Socket();                                        // 2. proč to správně nekomunikuje se Serverem? když na serveru více \n, bude fungovat? jinak ošetřit?
-            sock.connect(new InetSocketAddress(host, port));            // 3. kdyby socket byl na jiný server, tak do host -> IP adresa?
-            out = sock.getOutputStream();                               // 4. zadání na ten další úkol (řazení/streamy)?
+            // nastavení socketu                                        
+            sock = new Socket();             
+            sock.connect(new InetSocketAddress(host, port));
+            out = sock.getOutputStream();
             in = sock.getInputStream();
 
             // vlastní průběh komunikace
             // podle šablony z ClientHandleru zadá 1/E/skakal pes pres oves + ukončí spojení
             System.out.println(read("", "\n"));
+            
             write("1/E/skakal pes pres oves\n");
-
+            System.out.println(read("", "\n"));
+            
             System.out.println(read("", "\n"));
             write("E\n");
 
