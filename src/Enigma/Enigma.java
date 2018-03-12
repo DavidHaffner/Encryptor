@@ -8,14 +8,14 @@ package enigma;
 import Enigma.Rotor.LargeRotor;
 import Enigma.Rotor.MedRotor;
 import Enigma.Rotor.SmallRotor;
-import java.io.DataOutputStream;
+import java.io.DataOutputStream;       // importy pro zakomentovanou část kódu
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Enigma {
+public class Enigma implements IEncryption {
 
     String fileName = "masopustVelky";
     final String FILE_EXTENSION = ".enigma";
@@ -106,8 +106,8 @@ public class Enigma {
 
     }
     */
-                
-    public String encryptEnigma() {
+    
+    public String encrypt() {
         String plain = messageIn;
         plain = plain.toUpperCase();
         plain = plain.replaceAll("\\s+","");
@@ -129,7 +129,7 @@ public class Enigma {
         return messageOut;
     }
 
-    public String decryptEnigma() {
+    public String decrypt() {
         String cypher = messageIn;
         cypher = cypher.toUpperCase();
         cypher = cypher.replaceAll("\\s+","");

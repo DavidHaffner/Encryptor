@@ -67,11 +67,11 @@ class ClientHandler extends ParseMessage implements Runnable {
                     // spustí kódování či dekódování Enigma
                     Enigma enigma = new Enigma(parsed[2]);
                         if ("E".equals(parsed[1])) {
-                            String code = "Encrypted code is: " + enigma.encryptEnigma() +"\n";
+                            String code = "Encrypted code is: " + enigma.encrypt() +"\n";
                             write(code);
                         }    
                         if ("D".equals(parsed[1])) { 
-                            String code = "Decrypted code is: " + enigma.decryptEnigma() +"\n";
+                            String code = "Decrypted code is: " + enigma.decrypt() +"\n";
                             write(code);
                         }    
                 } else {
